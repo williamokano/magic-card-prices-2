@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class PriceController {
+class PriceController(val priceService: PriceService) {
 
     @GetMapping("/{source}/card/{name}")
     @ResponseStatus(HttpStatus.OK)
     fun cardPrice(@PathVariable("source") source: String, @PathVariable("name") name: String): CardPriceResponse {
-        return CardPriceResponse(name)
+        val price = this.priceService.getPrice(name)
+        return CardPriceResponse(name, price)
     }
 }
